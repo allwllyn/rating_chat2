@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "155781099542",
+    "project_id": "ratingchat2",
+    "storage_bucket": "ratingchat2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:155781099542:android:44b23c59b4685a42a50537",
+        "android_client_info": {
+          "package_name": "com.toastjar.rating_chat2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "155781099542-687vf093ldh6ocif1r2g79ne0sjli1os.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.toastjar.rating_chat2",
+            "certificate_hash": "76f6191a79cfbb1f14cea25141af707dd483a882"
+          }
+        },
+        {
+          "client_id": "155781099542-fsrk0s6q8ub5cljr1rshv8nkp5tc6ki3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjcsS3uYmKSEDEfZLZPKeSUkF7bRqJq_w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "155781099542-fsrk0s6q8ub5cljr1rshv8nkp5tc6ki3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
