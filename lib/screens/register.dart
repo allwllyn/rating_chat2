@@ -97,8 +97,8 @@ class _Register extends State<RegisterPage> {
         if (_auth.currentUser != null) {
           await _db.collection("users").doc(_auth.currentUser!.uid).set({
             "name": _display.text,
-            //"role": "USER",
-            "email": _email.text
+            "email": _email.text,
+            "uid": _auth.currentUser!.uid,
           });
         }
       } on FirebaseException catch (e) {
