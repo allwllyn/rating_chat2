@@ -8,13 +8,13 @@ class ChatScreen extends StatelessWidget {
   final UserModel currentUser;
   final String receiverId;
   final String receiverName;
-  final String receiverImage;
+  //final String receiverImage;
 
   ChatScreen({
     required this.currentUser,
     required this.receiverId,
     required this.receiverName,
-    required this.receiverImage,
+    //required this.receiverImage,
   });
 
   @override
@@ -26,10 +26,10 @@ class ChatScreen extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(80),
-              child: Image.network(
-                receiverImage,
-                height: 35,
-              ),
+              //child: Image.network(
+              //receiverImage,
+              // height: 35,
+              //),
             ),
             SizedBox(
               width: 5,

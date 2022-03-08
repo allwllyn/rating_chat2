@@ -96,8 +96,8 @@ class _Register extends State<RegisterPage> {
       try {
         if (_auth.currentUser != null) {
           await _db.collection("users").doc(_auth.currentUser!.uid).set({
-            "display_name": _display.text,
-            "role": "USER",
+            "name": _display.text,
+            //"role": "USER",
             "email": _email.text
           });
         }

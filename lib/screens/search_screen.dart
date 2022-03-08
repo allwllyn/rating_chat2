@@ -82,8 +82,8 @@ class _SearchScreenState extends State<SearchScreen> {
               itemBuilder: (context, index) {
                 return ListTile(
                   leading: CircleAvatar(
-                    child: Image.network(searchResult[index]['image']),
-                  ),
+                      //child: Image.network(searchResult[index]['image']),
+                      ),
                   title: Text(searchResult[index]['name']),
                   subtitle: Text(searchResult[index]['email']),
                   trailing: IconButton(
@@ -95,10 +95,11 @@ class _SearchScreenState extends State<SearchScreen> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => ChatScreen(
-                              currentUser: widget.user,
-                              receiverId: searchResult[index]['uid'],
-                              receiverName: searchResult[index]['name'],
-                              receiverImage: searchResult[index]['image']),
+                            currentUser: widget.user,
+                            receiverId: searchResult[index]['uid'],
+                            receiverName: searchResult[index]['name'],
+                            //receiverImage: searchResult[index]['image'],
+                          ),
                         ),
                       );
                     },

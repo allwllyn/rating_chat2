@@ -1,4 +1,7 @@
+//import 'dart:html';
+
 import 'package:rating_chat2/models/user.dart';
+import 'package:rating_chat2/screens/chat_screen.dart';
 import 'package:rating_chat2/screens/search_screen.dart';
 import 'package:rating_chat2/services/auth_bloc.dart';
 import 'package:rating_chat2/screens/signin.dart';
@@ -7,6 +10,7 @@ import 'package:rating_chat2/services/database_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:rating_chat2/widgets/single_message.dart';
 
 class HomePage extends StatefulWidget {
   UserModel user;
@@ -22,6 +26,22 @@ class _HomePageState extends State<HomePage> {
   final _postController = TextEditingController();
   late String valueText;
   late String postText;
+  List<Map> searchResult = [];
+
+  void loadChats() async {
+    await FirebaseFirestore.instance.collection('users').get().then((value) {
+      if (value.docs.length < 1) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text("no recent chats")));
+        return;
+      }
+      value.docs.forEach((user) {
+        if (user.data()['email'] != widget.user.email) {
+          searchResult.add(user.data());
+        }
+      });
+    });
+  }
 
   @override
   void initState() {
@@ -60,26 +80,55 @@ class _HomePageState extends State<HomePage> {
                   builder: (context) => SearchScreen(widget.user)));
         },
       ),
-      body: StreamBuilder<QuerySnapshot>(
-        stream: users.orderBy('name').snapshots(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (snapshot.hasError) {
-            return const Text("Something went wrong querying users");
-          }
-
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
-
-          return ListView(
-              children: snapshot.data!.docs.map((DocumentSnapshot doc) {
-            var post = doc.data() as Map<String, dynamic>;
-
-            return ListTile(
-              title: Text(post["name"]),
-            );
-          }).toList());
-        },
+      body: Column(
+        children: [
+          StreamBuilder(
+              stream:
+                  FirebaseFirestore.instance.collection('users').snapshots(),
+              builder: (context, AsyncSnapshot snapshot) {
+                if (snapshot.hasData) {
+                  if (snapshot.data.docs.length < 1) {
+                    return Center(
+                      child: Text("didnt load properly"),
+                    );
+                  }
+                  return ListView.builder(
+                      itemCount: snapshot.data.docs.length,
+                      reverse: true,
+                      shrinkWrap: true,
+                      physics: BouncingScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        //return Text(snapshot.data.docs[index]);
+                        //return Text(snapshot.data.docs[index]['name']);
+                        return ListTile(
+                            leading: CircleAvatar(),
+                            title: Text(snapshot.data.docs[index]['name']),
+                            subtitle: Text(snapshot.data.docs[index]['email']),
+                            trailing: IconButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ChatScreen(
+                                      currentUser: widget.user,
+                                      receiverId: snapshot.data.docs[index]
+                                          ['uid'],
+                                      receiverName: snapshot.data.docs[index]
+                                          ['name'],
+                                    ),
+                                  ),
+                                );
+                              },
+                              icon: Icon(Icons.message),
+                            ));
+                      });
+                } else {
+                  return Center(
+                    child: Text("something wrong"),
+                  );
+                }
+              })
+        ],
       ),
     );
   }
